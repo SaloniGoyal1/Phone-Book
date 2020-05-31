@@ -1,4 +1,5 @@
 # Phone-Book
 1 - Adding Single Phone Number and Email Id
- 	Images/Add contact with Multiple numbers and Emails.PNG
-  
+2 - Adding Multiple Phone Number and Email Id
+3 - Edit Single Phone Number and Email Id
+4 - Edit Multiple Phone Number and Email Id
