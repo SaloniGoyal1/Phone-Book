@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>Add Contact</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<style>
+button {
+  background-color: #4CAF50;
+  border: 2px solid green;
+  color: white;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 22px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 30%;
+  margin-bottom: 30px;
+}
+</style>
+</head>
+<body>
+    <center><div style="width: 500px; height: auto; border: 1px solid black; margin: 50px;" class="div1">
+        <p style="margin: 0px; padding: 0px; font-size: 20px; font-weight: bold; background-color: aqua;"><a href="index.html" style="text-decoration: none; text-align: left; ">&#8592;</a> Add a New Contact</p><br>
+        <h4 style="margin-bottom: 0px;">Name: </h4>
+        <input type="text" placeholder="Name" style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="name" required>
+           
+        <h4 style="margin-bottom: 0px;">DOB: </h4>
+        <input type="date" style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="date">
+        
+        <div id="numbersinput">
+        <h4 style="margin-bottom: 0px;">Mobile Number: </h4>
+        <input type="tel" name="numberinput"  style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="number" required>
+        </div>
+        <div class="fas fa-plus-circle" style="color: blue;" onclick="addNumberField()"></div>
+			
+		<div id="emailinput">
+        <h4 style="margin-bottom: 0px;">Email: </h4>
+        <input type="email" name="emailsinput" style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="email" required>
+		</div>
+        <div class="fas fa-plus-circle" style="color: blue;" onclick="addEmailField()"></div><br>
+        
+        <button id="addingContact" value="Save">Save</button>
+    </div></center>
+</body>
+<script>
+$(document).ready(function(){
+  $("#addingContact").click(function(){
+    var name= document.getElementById("name").value;
+    var date=document.getElementById("date").value;
+    var phonenumber=document.getElementsByName("numberinput");
+    var emailid=document.getElementsByName("emailsinput");
+    var email=emailid[0].value;
+    var number=phonenumber[0].value;
+    for(var i=1;i<emailid.length;i++)
+      email=email+":"+emailid[i].value;
+
+      for(var i=0;i<phonenumber.length;i++)
+      if (number> 99999999 && number<=9999999999 ){
+        number=number+":"+phonenumber[i].value;
+      } 
+      else {
+        alert("Enter a Valid Number");
+      }
+      console.log(email+number);
+      $.post("http://18.222.49.178/",
+      {
+        name: name,
+        dob: date,
+        email : email,
+        number : number
+      },
+      function(data, status){
+        alert("Data Successfully Added");
+      });
+    });
+  });
+  function addEmailField(){
+    console.log('Add Email');
+    $('#emailinput').append(`<input type="email" name="emailsinput"  style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="email" required>`);
+  }
+  function addNumberField(){
+    console.log('Add Number');
+    $('#numbersinput').append(`<input type="tel" name="numberinput"  style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="email" required>`);
+  }
+</script>
+</html>
