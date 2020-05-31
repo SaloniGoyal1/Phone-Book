@@ -33,13 +33,13 @@ button {
         <h4 style="margin-bottom: 0px;">Mobile Number: </h4>
         <input type="tel" name="numberinput"  style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="number" required>
         </div>
-        <div class="fas fa-plus-circle" style="color: blue;" onclick="addNumberField()"></div>
-			
-		<div id="emailinput">
+        <div class="fas fa-plus-circle" style="color: blue;" onclick="addNumber()"></div>
+        
+        <div id="emailinput">
         <h4 style="margin-bottom: 0px;">Email: </h4>
         <input type="email" name="emailsinput" style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="email" required>
-		</div>
-        <div class="fas fa-plus-circle" style="color: blue;" onclick="addEmailField()"></div><br>
+		    </div>
+        <div class="fas fa-plus-circle" style="color: blue;" onclick="addEmail()"></div><br>
         
         <button id="addingContact" value="Save">Save</button>
     </div></center>
@@ -64,7 +64,7 @@ $(document).ready(function(){
         alert("Enter a Valid Number");
       }
       console.log(email+number);
-      $.post("http://18.222.49.178/",
+      $.post("https://phone-web.herokuapp.com/",
       {
         name: name,
         dob: date,
@@ -76,11 +76,11 @@ $(document).ready(function(){
       });
     });
   });
-  function addEmailField(){
+  function addEmail(){
     console.log('Add Email');
     $('#emailinput').append(`<input type="email" name="emailsinput"  style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="email" required>`);
   }
-  function addNumberField(){
+  function addNumber(){
     console.log('Add Number');
     $('#numbersinput').append(`<input type="tel" name="numberinput"  style="width: 400px; height: 30px; font-size: 20px; margin: 5px;" id="email" required>`);
   }
