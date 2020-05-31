@@ -46,12 +46,44 @@ window.onload = () => {
     fetchdata();
 }
 </script>
+<script>
+function refreshList(){
+	$('.contact').remove();
+	for(var i=0;i<allContacts.length;i++)
+		$('#mainBox').append(createNode(allContacts[i])); 
+}
+function createNode(contact){
+	var x= `<div class="contact" onclick='expand(this)' style="position:relative;">
+	<p style="text-align:left; margin-left:10px" > `+ contact.name+` </p>`
+	+returnTextBoxNumber(contact)+returnTextBoxEmail(contact)+`
+	<a href="http://18.222.49.178/editRequest/`+contact.number+`" style="position:absolute; z-index:10; bottom:14px;right:40px; " >Edit</a>
+	<a onclick="expand(this)" class='thisone' style="position:absolute; z-index:10; top:5px;right:18px; " ><i class="fas fa-sort-down" style="font-size: 30px; "></i></a>
+	</div>`;
+	return x;
+}
+function searchBoxChange(obj){
+	console.log('Called');
+	var str=obj.value.toLowerCase();
+	copyArray();
+	for(var i=0;i<allContacts.length;i++){
+		if(allContacts[i].name.toLowerCase().includes(str) || allContacts[i].number.toLowerCase().includes(str) || allContacts[i].email.toLowerCase().includes(str)){}
+		else{
+			console.log(i);
+			if (i > -1) {
+	    		allContacts.splice(i, 1);
+				i--;
+				}
+			}
+	}
+	refreshList();
+};
+</script>
 </head>
 <body>
     <center><div style="width: 500px; height: 500px; border: 1px solid black; margin: 50px;" class="div1">
         <h1 style="margin: 0px; padding: 0px;">Phone Book</h1>
         <form>
-            <input type="search" placeholder="Search" style="width: 400px; height: 40px; font-size: 20px; margin: 40px;" class="search">
+            <input type="search" placeholder="Search" style="width: 400px; height: 40px; font-size: 20px; margin: 40px;" class="search" onKeyUp="searchBoxChange(this)">
             <div style="height: auto; width: 400px; border: 1px solid black;" class="contacts">
                 <div class="contact1">
                     <a href="showdetails.html"><i class="fas fa-sort-down" style="font-size: 30px; margin-left: 340px;"></i></a>
