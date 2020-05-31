@@ -1,104 +1,76 @@
 <html>
 <head>
 <title>Phone Book</title>
+<style>
+.contact1, .contact2, .contact3, .contact4{
+    height: 50px; 
+    width: 400px; 
+    border: 1px solid black;
+}
+</style>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-var contactList =[];
-var time=[];
-$(document).ready(function(){
-    $.get("https://phone-web.herokuapp.com//fetchAllContacts",
-	function(data, status){
-        console.log("Data: " + data + "\nStatus: " + status);
-		time=data;
-		copyList();
-		$('.contact').remove();
-		for(var i=0;i<contactList.length;i++)
-			$('#list').append(createNode(contactList[i]));  
-	});
-});
-function edditedList(){
-	$('.contact').remove();
-	for(var i=0;i<contactList.length;i++)
-		$('#list').append(createNode(contactList[i])); 
-}
-	
-function createNode(contact){
-	var x= `<div class="contact" onclick='expand(this)' style="position:relative;">
-	<p style="text-align:center;"> `+ contact.name+` </p>`+ returnNumber(contact) + returnEmail(contact) +`
-	<a onclick="expand(this)" class='createnode' style="position:absolute; z-index:10; top:5px; right:18px; " ><i class="fas fa-sort-down" style="font-size: 30px; "></i></a>
-	</div>`;
-    return x;
-}
-
-function returnNumber(data){
-	var phone=data.number.split(':');
-	var str="<span style='margin-left:20px; display:inline; text-align:center; width:175px; overflow:auto; float:left; '>";
-	for(var i=0;i<phone.length;i++)
-	    str+="<i class='fas fa-phone' style='font-size: 18px;'></i> "+ phone[i]+"<br> ";
-	str+='</span>';
-	return str;
-}
-
-function returnEmail(data){
-	var phone=data.email.split(':');
-	var str="<span style='padding-top:0px; display:inline; text-align:right; width:175px; overflow:none; float:right; margin-right:20px;'>";
-	for(var i=0;i<phone.length;i++)
-		str+="<i class='fas fa-envelope-open-text' style='font-size: 15px;'></i>"+phone[i]+"<br>"
-	str+='</span>';
-	return str;
-}
-	
-function serach(obj){
-	console.log('Number Called');
-	var str=obj.value;
-	copyList();
-	for(var i=0;i<contactList.length;i++){
-		if(contactList[i].name.includes(str) || contactList[i].number.includes(str) || contactList[i].email.includes(str)){}
-		else{
-			console.log(i);
-			if (i > -1) {
-				contactList.splice(i, 1);
-				i--;
-			}
-		}
-	}
-	edditedList();
-};
-
-function copyList(){
-	contactList=[];
-	for(var i=0;i<time.length;i++){
-		contactList.push(time[i]);
-	}
-}
-    
-function expand(x){
-	if($(x).css('height')=='50px'){
-		$('.contact').animate({height: '50px'}, { duration: 200, queue: false });
-		$('.contact').css({background: 'cream'});
-		$(x).animate({height: '150px'}, { duration: 200, queue: false });
-		$(x).css({background: ' rgb(166, 247, 243)'});
-		$('.createnode').css({background: ' rgba(0, 0, 0,0)'});
-	}
-	else{
-		$(x).animate({height: '50px'}, { duration: 200, queue: false });
-		$('.createnode').css({background: ' rgba(0, 0, 0,0)'});
-		$('.contact').css({background: 'cream'});
-	}		
+window.onload = () => {
+    var fetchdata = () => {
+        axios.get('/fetchdata').then(response => {
+            console.log(response.data[0]);
+            for(let i = 0; i<response.data.length && i<4; i++){
+                if(i==0){
+                    var data = document.createElement("a");
+                    data.href = "/showdetails?" + response.data[i].number;
+                    data.innerHTML = response.data[i].name;
+                    document.getElementsByClassName('contact1')[0].appendChild(data);
+                }
+                if(i==1){
+                    var data = document.createElement("a");
+                    data.href = "/showdetails?" + response.data[i].number;
+                    data.innerHTML = response.data[i].name;
+                    document.getElementsByClassName('contact2')[0].appendChild(data);
+                }
+                if(i==2){
+                    var data = document.createElement("a");
+                    data.href = "/showdetails?" + response.data[i].number;
+                    data.innerHTML = response.data[i].name;
+                    document.getElementsByClassName('contact3')[0].appendChild(data);
+                }
+                if(i==3){
+                    var data = document.createElement("a");
+                    data.href = "/showdetails?" + response.data[i].number;
+                    data.innerHTML = response.data[i].name;
+                    document.getElementsByClassName('contact4')[0].appendChild(data);
+                }
+            }
+        })
+    }
+    fetchdata();
 }
 </script>
 </head>
 <body>
-    <center><div style="width: 500px; height: auto; border: 1px solid black; margin: 50px;" class="div1">
-        <h1 style="margin: 0px; padding: 0px; background-color: aqua;">Phone Book</h1>
+    <center><div style="width: 500px; height: 500px; border: 1px solid black; margin: 50px;" class="div1">
+        <h1 style="margin: 0px; padding: 0px;">Phone Book</h1>
         <form>
-            <input type="search" placeholder="Search" style="width: 400px; height: 40px; font-size: 20px; margin: 40px;" class="search" onKeyUp="serach(this)">
-            <div style="height: 300px; width: 420px; border: 1px solid black; overflow-y: scroll; overflow-x:auto;" class="contacts" id='list'>
+            <input type="search" placeholder="Search" style="width: 400px; height: 40px; font-size: 20px; margin: 40px;" class="search">
+            <div style="height: auto; width: 400px; border: 1px solid black;" class="contacts">
+                <div class="contact1">
+                    <a href="showdetails.html"><i class="fas fa-sort-down" style="font-size: 30px; margin-left: 340px;"></i></a>
+                </div>
+                <div class="contact2">
+                    <a href="showdetails.html"><i class="fas fa-sort-down" style="font-size: 30px; margin-left: 340px;"></i></a>
+                </div>
+                <div class="contact3">
+                    <a href="showdetails.html"><i class="fas fa-sort-down" style="font-size: 30px; margin-left: 340px;"></i></a>
+                </div>
+                <div class="contact4">
+                    <a href="showdetails.html"><i class="fas fa-sort-down" style="font-size: 30px; margin-left: 340px;"></i></a>
+                </div>
             </div>
             <a href="addcontact.html"><i class="fas fa-plus-circle" style="margin-top: 40px; font-size: 50px;"></i></a>
         </form>
     </div></center>
+    
+    
+    <h1 id="trial"></h1>
 </body>
 </html>

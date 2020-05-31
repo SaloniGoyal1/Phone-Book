@@ -4,7 +4,7 @@ const pool = mysql.createPool({
     host : 'localhost',
     user : 'root',
 database: "phoneweb",
-    password : 12345
+    password : "12345"
 });
 pool.getConnection((err, connection) => {
     if (err) {
